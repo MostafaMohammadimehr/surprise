@@ -281,7 +281,7 @@ window.onload = function () {
   upArrow.style.fontSize = "24px";
   upArrow.style.cursor = "pointer";
   upArrow.onclick = () => window.scrollBy(0, -100);
-
+  
   const downArrow = document.createElement("div");
   downArrow.textContent = "↓";
   downArrow.style.fontSize = "24px";
