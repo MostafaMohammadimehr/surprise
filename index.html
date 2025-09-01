@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="UTF-8" dir="rtl">
+<html lang="fa" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
@@ -40,8 +40,10 @@
                 <div>زمان: <span id="time">60</span> ثانیه</div>
             </div>
             <canvas id="game-canvas" width="400" height="400"></canvas>
-            <button onclick="restartGame()">دوباره بازی کن</button>
-            <button onclick="nextSection()">ادامه</button>
+            <div class="button-group">
+                <button onclick="restartGame()">دوباره بازی کن</button>
+                <button onclick="nextSection()">ادامه</button>
+            </div>
         </div>
     </section>
 
@@ -49,9 +51,9 @@
         <div class="message">
             <h2>تقدیم به پدر عزیزم</h2>
             <p>پدر گرامی،</p>
-            <p>در این روز فرخنده، می‌خواهم از صمیم قلب از تو تشکر کنم برای همهٔ sacrifices و عشقی که همیشه نثار
-                خانواده‌ات کرده‌ای. تو قهرمان زندگی من هستی و هر روزی که گذشت، lessons زیادی از تو یاد گرفتم.</p>
-            <p>این تابستان به خصوص برایم تکرارنشدنی بود، thanks to all the moments we shared together. از صبر و تحملت،
+            <p>در این روز فرخنده، می‌خواهم از صمیم قلب از تو تشکر کنم برای همهٔ فداکاری‌ها و عشقی که همیشه نثار
+                خانواده‌ات کرده‌ای. تو قهرمان زندگی من هستی و هر روزی که گذشت، درس‌های زیادی از تو یاد گرفتم.</p>
+            <p>این تابستان به خصوص برایم تکرارنشدنی بود، به خاطر همه لحظه‌های زیبایی که با هم گذراندیم. از صبر و تحملت،
                 از راهنمایی‌هایت، و از بودن در کنارت همیشه سپاسگزارم.</p>
             <p>امیدوارم سال جدید زندگیات پر از سلامتی، شادی و موفقیت باشد. دوستت دارم!</p>
             <p>همیشه فرزندت</p>
@@ -63,8 +65,8 @@
         <h1>تولدت مبارک پدر عزیز!</h1>
         <p>امیدوارم این سال جدید زندگیات پر از خوشی و موفقیت باشد</p>
         <div id="confetti-container"></div>
-        <div style="margin-top: 20px;">
-            <button onclick="restartGame()">بازی دوباره</button>
+        <div class="button-group">
+            <button onclick="restartFromBeginning()">بازی دوباره</button>
             <button onclick="showFinalMessage()">پیام نهایی</button>
         </div>
     </section>

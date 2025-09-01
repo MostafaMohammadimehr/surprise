@@ -21,6 +21,8 @@ let ballY = canvas.height - 30;
 let ballSpeedX = 5;
 let ballSpeedY = -5;
 const ballRadius = 10;
+let rightPressed = false;
+let leftPressed = false;
 
 // Bricks
 const brickRowCount = 5;
@@ -32,56 +34,12 @@ const brickOffsetTop = 30;
 const brickOffsetLeft = 30;
 const bricks = [];
 
+// Initialize bricks
 for (let c = 0; c < brickColumnCount; c++) {
   bricks[c] = [];
   for (let r = 0; r < brickRowCount; r++) {
     bricks[c][r] = { x: 0, y: 0, status: 1 };
   }
-}
-
-// Initialize the game
-function initGame() {
-  // Draw elements
-  drawBricks();
-  drawBall();
-  drawPaddle();
-
-  // Collision detection
-  collisionDetection();
-
-  // Wall collisions
-  if (
-    ballX + ballSpeedX > canvas.width - ballRadius ||
-    ballX + ballSpeedX < ballRadius
-  ) {
-    ballSpeedX = -ballSpeedX;
-  }
-  if (ballY + ballSpeedY < ballRadius) {
-    ballSpeedY = -ballSpeedY;
-  } else if (ballY + ballSpeedY > canvas.height - ballRadius) {
-    if (ballX > paddleX && ballX < paddleX + paddleWidth) {
-      ballSpeedY = -ballSpeedY;
-    } else {
-      // Game over
-      clearInterval(gameInterval);
-      clearInterval(gameTimer);
-      alert(" بازی تمام شد! امتیاز نهایی: " + gameScore);
-    }
-  }
-
-  // Move paddle with mouse
-  canvas.addEventListener("mousemove", (e) => {
-    const relativeX = e.clientX - canvas.getBoundingClientRect().left;
-    if (relativeX > 0 && relativeX < canvas.width) {
-      paddleX = relativeX - paddleWidth / 2;
-    }
-  });
-
-  // Move ball
-  ballX += ballSpeedX;
-  ballY += ballSpeedY;
-
-  requestAnimationFrame(initGame);
 }
 
 // Draw game elements
@@ -134,9 +92,98 @@ function collisionDetection() {
           b.status = 0;
           gameScore++;
           document.getElementById("score").textContent = gameScore;
+
+          // Check if all bricks are broken
+          if (gameScore === brickRowCount * brickColumnCount) {
+            alert("آفرین! شما برنده شدید! امتیاز: " + gameScore);
+            clearInterval(gameTimer);
+            clearInterval(gameInterval);
+          }
         }
       }
     }
+  }
+}
+
+// Initialize the game
+function initGame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw elements
+  drawBricks();
+  drawBall();
+  drawPaddle();
+
+  // Collision detection
+  collisionDetection();
+
+  // Wall collisions
+  if (
+    ballX + ballSpeedX > canvas.width - ballRadius ||
+    ballX + ballSpeedX < ballRadius
+  ) {
+    ballSpeedX = -ballSpeedX;
+  }
+  if (ballY + ballSpeedY < ballRadius) {
+    ballSpeedY = -ballSpeedY;
+  } else if (ballY + ballSpeedY > canvas.height - ballRadius) {
+    // Ball hits bottom wall (paddle or game over)
+    if (ballX > paddleX && ballX < paddleX + paddleWidth) {
+      ballSpeedY = -ballSpeedY;
+    } else {
+      // Game over - ball missed the paddle
+      clearInterval(gameInterval);
+      clearInterval(gameTimer);
+      alert("بازی تمام شد! امتیاز نهایی: " + gameScore);
+      return;
+    }
+  }
+
+  // Move paddle with keyboard
+  if (rightPressed && paddleX < canvas.width - paddleWidth) {
+    paddleX += 7;
+  } else if (leftPressed && paddleX > 0) {
+    paddleX -= 7;
+  }
+
+  // Move ball
+  ballX += ballSpeedX;
+  ballY += ballSpeedY;
+
+  requestAnimationFrame(initGame);
+}
+
+// Keyboard controls
+function keyDownHandler(e) {
+  if (e.key === "Right" || e.key === "ArrowRight") {
+    rightPressed = true;
+  } else if (e.key === "Left" || e.key === "ArrowLeft") {
+    leftPressed = true;
+  }
+}
+
+function keyUpHandler(e) {
+  if (e.key === "Right" || e.key === "ArrowRight") {
+    rightPressed = false;
+  } else if (e.key === "Left" || e.key === "ArrowLeft") {
+    leftPressed = false;
+  }
+}
+
+// Mouse controls
+function mouseMoveHandler(e) {
+  const relativeX = e.clientX - canvas.getBoundingClientRect().left;
+  if (relativeX > 0 && relativeX < canvas.width) {
+    paddleX = relativeX - paddleWidth / 2;
+  }
+}
+
+// Touch controls for mobile
+function touchMoveHandler(e) {
+  e.preventDefault();
+  const relativeX = e.touches[0].clientX - canvas.getBoundingClientRect().left;
+  if (relativeX > 0 && relativeX < canvas.width) {
+    paddleX = relativeX - paddleWidth / 2;
   }
 }
 
@@ -146,42 +193,35 @@ function startGame() {
   showLoading(() => {
     switchSection(1);
     resetGame();
-    gameInterval = setInterval(initGame, 10);
-
-    // Start timer
-    gameTimer = setInterval(() => {
-      timeLeft--;
-      document.getElementById("time").textContent = timeLeft;
-
-      if (timeLeft <= 0) {
-        clearInterval(gameTimer);
-        clearInterval(gameInterval);
-        alert("زمان به پایان رسید! امتیاز شما: " + gameScore);
-      }
-    }, 1000);
+    gameInterval = requestAnimationFrame(initGame);
+    startGameTimer();
   });
 }
 
 function restartGame() {
   showLoading(() => {
     resetGame();
-    gameInterval = setInterval(initGame, 10);
+    gameInterval = requestAnimationFrame(initGame);
 
     // Reset and start timer
     timeLeft = 60;
     document.getElementById("time").textContent = timeLeft;
-
-    gameTimer = setInterval(() => {
-      timeLeft--;
-      document.getElementById("time").textContent = timeLeft;
-
-      if (timeLeft <= 0) {
-        clearInterval(gameTimer);
-        clearInterval(gameInterval);
-        alert("زمان به پایان رسید! امتیاز شما: " + gameScore);
-      }
-    }, 1000);
+    startGameTimer();
   });
+}
+
+function startGameTimer() {
+  clearInterval(gameTimer);
+  gameTimer = setInterval(() => {
+    timeLeft--;
+    document.getElementById("time").textContent = timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(gameTimer);
+      cancelAnimationFrame(gameInterval);
+      alert("زمان به پایان رسید! امتیاز شما: " + gameScore);
+    }
+  }, 1000);
 }
 
 function resetGame() {
@@ -204,8 +244,8 @@ function resetGame() {
   }
 
   // Clear intervals if they exist
-  clearInterval(gameInterval);
   clearInterval(gameTimer);
+  cancelAnimationFrame(gameInterval);
 }
 
 // Section navigation
@@ -231,6 +271,12 @@ function switchSection(index) {
 function showFinalMessage() {
   showLoading(() => {
     switchSection(4);
+  });
+}
+
+function restartFromBeginning() {
+  showLoading(() => {
+    switchSection(0);
   });
 }
 
@@ -267,28 +313,30 @@ window.onload = function () {
 
   // Add scroll indicator
   const scrollIndicator = document.createElement("div");
-  scrollIndicator.style.position = "fixed";
-  scrollIndicator.style.right = "10px";
-  scrollIndicator.style.top = "50%";
-  scrollIndicator.style.transform = "translateY(-50%)";
-  scrollIndicator.style.backgroundColor = "rgba(255, 255, 255, 0.7)";
-  scrollIndicator.style.padding = "10px 5px";
-  scrollIndicator.style.borderRadius = "20px";
-  scrollIndicator.style.zIndex = "100";
+  scrollIndicator.classList.add("scroll-indicator");
 
   const upArrow = document.createElement("div");
+  upArrow.classList.add("scroll-arrow");
   upArrow.textContent = "↑";
-  upArrow.style.fontSize = "24px";
-  upArrow.style.cursor = "pointer";
   upArrow.onclick = () => window.scrollBy(0, -100);
-  
+
   const downArrow = document.createElement("div");
+  downArrow.classList.add("scroll-arrow");
   downArrow.textContent = "↓";
-  downArrow.style.fontSize = "24px";
-  downArrow.style.cursor = "pointer";
   downArrow.onclick = () => window.scrollBy(0, 100);
 
   scrollIndicator.appendChild(upArrow);
   scrollIndicator.appendChild(downArrow);
   document.body.appendChild(scrollIndicator);
+
+  // Initialize game canvas
+  const canvas = document.getElementById("game-canvas");
+  canvas.width = 400;
+  canvas.height = 400;
+
+  // Add event listeners for game controls
+  document.addEventListener("keydown", keyDownHandler);
+  document.addEventListener("keyup", keyUpHandler);
+  document.addEventListener("mousemove", mouseMoveHandler);
+  canvas.addEventListener("touchmove", touchMoveHandler, { passive: false });
 };
