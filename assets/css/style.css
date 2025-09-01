@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    height: 100%;
+    overflow: hidden;
+    font-family: sans-serif;
+}
+
+.section {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    transition: transform 0.7s ease;
+}
+
+.section1 {
+    background: #ffecd1;
+}
+
+.section2 {
+    background: #dff6ff;
+}
+
+.section3 {
+    background: #ffe5ec;
+}
+
+/* نوار سمت راست */
+.nav {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #aaa;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dot.active {
+    background: #333;
+    transform: scale(1.2);
+}
