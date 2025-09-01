@@ -9,22 +9,22 @@
 </head>
 
 <body>
-    <!-- Loading Screen -->
+    <!-- صفحه لودینگ -->
     <div class="loading">
         <div class="spinner"></div>
         <div class="loading-text">در حال آماده سازی تبریک ویژه...</div>
     </div>
 
-    <!-- Decorative Elements -->
-    <div class="decoration balloon" style="top: 10%; left: 5%;"></div>
-    <div class="decoration balloon" style="top: 15%; left: 15%;"></div>
-    <div class="decoration balloon" style="top: 8%; left: 25%;"></div>
-    <div class="decoration balloon" style="top: 12%; left: 75%;"></div>
-    <div class="decoration balloon" style="top: 18%; left: 85%;"></div>
-    <div class="decoration cake" style="left: 10%;">🎂</div>
-    <div class="decoration cake" style="left: 90%;">🍰</div>
+    <!-- تزئینات صفحه -->
+    <div class="decoration balloon" style="top:10%;left:5%;"></div>
+    <div class="decoration balloon" style="top:15%;left:15%;"></div>
+    <div class="decoration balloon" style="top:8%;left:25%;"></div>
+    <div class="decoration balloon" style="top:12%;left:75%;"></div>
+    <div class="decoration balloon" style="top:18%;left:85%;"></div>
+    <div class="decoration cake" style="left:10%;">🎂</div>
+    <div class="decoration cake" style="left:90%;">🍰</div>
 
-    <!-- Sections -->
+    <!-- بخش های مختلف صفحه -->
     <section id="welcome" class="active">
         <h1>تبریک تولد پدر عزیز!</h1>
         <p>برای شروع یک سورپرایز ویژه، دکمه زیر را کلیک کن</p>
@@ -40,7 +40,7 @@
                 <div>زمان: <span id="time">60</span> ثانیه</div>
             </div>
             <canvas id="game-canvas" width="400" height="400"></canvas>
-            <!-- بعد از تگ canvas بازی این کد را اضافه کنید -->
+            <!-- کنترل های موبایل -->
             <div class="game-controls">
                 <button class="control-btn" onmousedown="moveLeft()" ontouchstart="moveLeft()"
                     ontouchend="stopMove()">◀</button>
@@ -84,7 +84,7 @@
         <p>همیشه دوستت دارم</p>
     </section>
 
-    <!-- Audio Elements -->
+    <!-- المان های صوتی -->
     <audio id="background-music" loop>
         <source src="" type="audio/mpeg">
     </audio>
