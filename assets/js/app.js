@@ -12,9 +12,9 @@ let gameTimer;
 const canvas = document.getElementById("game-canvas");
 const ctx = canvas.getContext("2d");
 
-// Paddle and Ball
-const paddleHeight = 10;
-const paddleWidth = 75;
+// Paddle and Ball - Paddle width increased to 120
+const paddleHeight = 15;
+const paddleWidth = 120;
 let paddleX = (canvas.width - paddleWidth) / 2;
 let ballX = canvas.width / 2;
 let ballY = canvas.height - 30;
@@ -23,6 +23,20 @@ let ballSpeedY = -5;
 const ballRadius = 10;
 let rightPressed = false;
 let leftPressed = false;
+
+// Mobile control functions
+function moveLeft() {
+  leftPressed = true;
+}
+
+function moveRight() {
+  rightPressed = true;
+}
+
+function stopMove() {
+  leftPressed = false;
+  rightPressed = false;
+}
 
 // Bricks
 const brickRowCount = 5;
@@ -93,11 +107,10 @@ function collisionDetection() {
           gameScore++;
           document.getElementById("score").textContent = gameScore;
 
-          // Check if all bricks are broken
           if (gameScore === brickRowCount * brickColumnCount) {
             alert("آفرین! شما برنده شدید! امتیاز: " + gameScore);
             clearInterval(gameTimer);
-            clearInterval(gameInterval);
+            cancelAnimationFrame(gameInterval);
           }
         }
       }
@@ -109,44 +122,37 @@ function collisionDetection() {
 function initGame() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw elements
   drawBricks();
   drawBall();
   drawPaddle();
-
-  // Collision detection
   collisionDetection();
 
-  // Wall collisions
   if (
     ballX + ballSpeedX > canvas.width - ballRadius ||
     ballX + ballSpeedX < ballRadius
   ) {
     ballSpeedX = -ballSpeedX;
   }
+
   if (ballY + ballSpeedY < ballRadius) {
     ballSpeedY = -ballSpeedY;
   } else if (ballY + ballSpeedY > canvas.height - ballRadius) {
-    // Ball hits bottom wall (paddle or game over)
     if (ballX > paddleX && ballX < paddleX + paddleWidth) {
       ballSpeedY = -ballSpeedY;
     } else {
-      // Game over - ball missed the paddle
-      clearInterval(gameInterval);
       clearInterval(gameTimer);
+      cancelAnimationFrame(gameInterval);
       alert("بازی تمام شد! امتیاز نهایی: " + gameScore);
       return;
     }
   }
 
-  // Move paddle with keyboard
   if (rightPressed && paddleX < canvas.width - paddleWidth) {
-    paddleX += 7;
+    paddleX += 10;
   } else if (leftPressed && paddleX > 0) {
-    paddleX -= 7;
+    paddleX -= 10;
   }
 
-  // Move ball
   ballX += ballSpeedX;
   ballY += ballSpeedY;
 
@@ -189,25 +195,22 @@ function touchMoveHandler(e) {
 
 // Game control functions
 function startGame() {
-  // Show loading then switch to game
   showLoading(() => {
     switchSection(1);
     resetGame();
     gameInterval = requestAnimationFrame(initGame);
     startGameTimer();
-  });
+  }, 500);
 }
 
 function restartGame() {
   showLoading(() => {
     resetGame();
     gameInterval = requestAnimationFrame(initGame);
-
-    // Reset and start timer
     timeLeft = 60;
     document.getElementById("time").textContent = timeLeft;
     startGameTimer();
-  });
+  }, 500);
 }
 
 function startGameTimer() {
@@ -225,25 +228,20 @@ function startGameTimer() {
 }
 
 function resetGame() {
-  // Reset game state
   gameScore = 0;
   document.getElementById("score").textContent = gameScore;
-
-  // Reset ball and paddle
   ballX = canvas.width / 2;
   ballY = canvas.height - 30;
   ballSpeedX = 5;
   ballSpeedY = -5;
   paddleX = (canvas.width - paddleWidth) / 2;
 
-  // Reset bricks
   for (let c = 0; c < brickColumnCount; c++) {
     for (let r = 0; r < brickRowCount; r++) {
       bricks[c][r].status = 1;
     }
   }
 
-  // Clear intervals if they exist
   clearInterval(gameTimer);
   cancelAnimationFrame(gameInterval);
 }
@@ -253,13 +251,11 @@ function nextSection() {
   showLoading(() => {
     if (currentSection < sections.length - 1) {
       switchSection(currentSection + 1);
-
-      // If going to final section, create confetti
       if (currentSection === 3) {
         createConfetti();
       }
     }
-  });
+  }, 800);
 }
 
 function switchSection(index) {
@@ -271,22 +267,22 @@ function switchSection(index) {
 function showFinalMessage() {
   showLoading(() => {
     switchSection(4);
-  });
+  }, 800);
 }
 
 function restartFromBeginning() {
   showLoading(() => {
     switchSection(0);
-  });
+  }, 800);
 }
 
-// Loading screen
-function showLoading(callback) {
+// Optimized loading screen - only shows when needed
+function showLoading(callback, delay = 800) {
   loadingScreen.style.display = "flex";
   setTimeout(() => {
     loadingScreen.style.display = "none";
     callback();
-  }, 1500);
+  }, delay);
 }
 
 // Confetti effect
@@ -306,12 +302,10 @@ function createConfetti() {
 
 // Initialize page
 window.onload = function () {
-  // Hide loading after page load
   setTimeout(() => {
     loadingScreen.style.display = "none";
   }, 2000);
 
-  // Add scroll indicator
   const scrollIndicator = document.createElement("div");
   scrollIndicator.classList.add("scroll-indicator");
 
@@ -329,12 +323,9 @@ window.onload = function () {
   scrollIndicator.appendChild(downArrow);
   document.body.appendChild(scrollIndicator);
 
-  // Initialize game canvas
-  const canvas = document.getElementById("game-canvas");
   canvas.width = 400;
   canvas.height = 400;
 
-  // Add event listeners for game controls
   document.addEventListener("keydown", keyDownHandler);
   document.addEventListener("keyup", keyUpHandler);
   document.addEventListener("mousemove", mouseMoveHandler);
