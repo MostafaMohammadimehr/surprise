@@ -1,95 +1,0 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تبریک تولد پدر</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
-
-<body>
-    <!-- صفحه لودینگ -->
-    <div class="loading">
-        <div class="spinner"></div>
-        <div class="loading-text">در حال آماده سازی تبریک ویژه...</div>
-    </div>
-
-    <!-- تزئینات صفحه -->
-    <div class="decoration balloon" style="top:10%;left:5%;"></div>
-    <div class="decoration balloon" style="top:15%;left:15%;"></div>
-    <div class="decoration balloon" style="top:8%;left:25%;"></div>
-    <div class="decoration balloon" style="top:12%;left:75%;"></div>
-    <div class="decoration balloon" style="top:18%;left:85%;"></div>
-    <div class="decoration cake" style="left:10%;">🎂</div>
-    <div class="decoration cake" style="left:90%;">🍰</div>
-
-    <!-- بخش های مختلف صفحه -->
-    <section id="welcome" class="active">
-        <h1>تبریک تولد پدر عزیز!</h1>
-        <p>برای شروع یک سورپرایز ویژه، دکمه زیر را کلیک کن</p>
-        <button onclick="startGame()">کلیک کن</button>
-    </section>
-
-    <section id="game">
-        <div id="game-container">
-            <h2>بازی زمان‌دار!</h2>
-            <p>در یک دقیقه امتیاز بیشتری کسب کن</p>
-            <div class="game-info">
-                <div>امتیاز: <span id="score">0</span></div>
-                <div>زمان: <span id="time">60</span> ثانیه</div>
-            </div>
-            <canvas id="game-canvas" width="400" height="400"></canvas>
-            <!-- کنترل های موبایل -->
-            <div class="game-controls">
-                <button class="control-btn" onmousedown="moveLeft()" ontouchstart="moveLeft()"
-                    ontouchend="stopMove()">◀</button>
-                <button class="control-btn" onmousedown="moveRight()" ontouchstart="moveRight()"
-                    ontouchend="stopMove()">▶</button>
-            </div>
-            <div class="button-group">
-                <button onclick="restartGame()">دوباره بازی کن</button>
-                <button onclick="nextSection()">ادامه</button>
-            </div>
-        </div>
-    </section>
-
-    <section id="message">
-        <div class="message">
-            <h2>تقدیم به پدر عزیزم</h2>
-            <p>پدر گرامی،</p>
-            <p>در این روز فرخنده، می‌خواهم از صمیم قلب از تو تشکر کنم برای همهٔ فداکاری‌ها و عشقی که همیشه نثار
-                خانواده‌ات کرده‌ای. تو قهرمان زندگی من هستی و هر روزی که گذشت، درس‌های زیادی از تو یاد گرفتم.</p>
-            <p>این تابستان به خصوص برایم تکرارنشدنی بود، به خاطر همه لحظه‌های زیبایی که با هم گذراندیم. از صبر و تحملت،
-                از راهنمایی‌هایت، و از بودن در کنارت همیشه سپاسگزارم.</p>
-            <p>امیدوارم سال جدید زندگیات پر از سلامتی، شادی و موفقیت باشد. دوستت دارم!</p>
-            <p>همیشه فرزندت</p>
-        </div>
-        <button onclick="nextSection()">ادامه</button>
-    </section>
-
-    <section id="final">
-        <h1>تولدت مبارک پدر عزیز!</h1>
-        <p>امیدوارم این سال جدید زندگیات پر از خوشی و موفقیت باشد</p>
-        <div id="confetti-container"></div>
-        <div class="button-group">
-            <button onclick="restartFromBeginning()">بازی دوباره</button>
-            <button onclick="showFinalMessage()">پیام نهایی</button>
-        </div>
-    </section>
-
-    <section id="final-message">
-        <h1>با تشکر از تو پدر قهرمان من!</h1>
-        <p>امیدوارم از این سورپرایز کوچک خوشت آمده باشد</p>
-        <p>همیشه دوستت دارم</p>
-    </section>
-
-    <!-- المان های صوتی -->
-    <audio id="background-music" loop>
-        <source src="" type="audio/mpeg">
-    </audio>
-
-    <script src="assets/js/app.js"></script>
-</body>
-
-</html>
