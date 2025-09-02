@@ -2,18 +2,27 @@
 <html lang="fa" dir="rtl">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/game.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>سوپرایز تولد / صفحه بازی</title>
+    <link rel="stylesheet" href="assets/css/game.css" />
     <link rel="icon" href="assets/img/image.jpg">
-    <title>سوپرایز تولد / صفحه اصلی</title>
-</head>
 
 <body>
+    <header class="hud">
+        <div class="hud-item">مرحله: <span id="level">1</span></div>
+        <div class="hud-item">توپ‌ها: <span id="balls">1</span></div>
+        <div class="hud-item">بیشترین امتیاز: <span id="best">0</span></div>
+        <button id="restart" class="btn">شروع مجدد</button>
+    </header>
 
+    <main class="game-wrap">
+        <canvas id="game"></canvas>
+    </main>
 
-
-
+    <footer class="tips">
+        برای نشانه‌گیری، لمس/کلیک و بکش؛ سپس رها کن.
+    </footer>
 
     <script src="assets/js/game.js"></script>
 </body>

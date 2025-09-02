@@ -75,7 +75,6 @@ window.addEventListener("resize", () => {
   canvas.width = W;
   canvas.height = H;
 });
-
 // اضافه کردن افکت confetti با کلیک
 document.addEventListener("click", function () {
   // اضافه کردن confetti جدید با کلیک
@@ -92,7 +91,6 @@ document.addEventListener("click", function () {
     });
   }
 });
-
 // همچنین confetti هنگام لود صفحه
 window.addEventListener("load", function () {
   for (let i = 0; i < 200; i++) {
