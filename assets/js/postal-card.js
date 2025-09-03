@@ -72,15 +72,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const volumeSlider = document.getElementById("volumeSlider");
 
   // تنظیمات اولیه
-  audio.volume = 0.7;
+  audio.volume = 1;
   let userInteracted = false;
 
-  // نمایش هشدار به کاربر
-  setTimeout(function () {
-    if (!userInteracted) {
-      alert("باباجون ! لطفا صدا رو زیاد کن 😘♥️😍");
-    }
-  }, 3);
+  
 
   // تلاش برای پخش خودکار
   function tryAutoPlay() {

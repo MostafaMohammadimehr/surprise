@@ -266,3 +266,32 @@ a button#btn:hover {
   }
   .balloon, .cake { transform: scale(0.6); }
 }
+/* انیمیشن لرزش نرم و دائمی */
+@keyframes gentle-shake {
+  0% { transform: translateX(0) translateY(0) rotate(0deg); }
+  25% { transform: translateX(2px) translateY(1px) rotate(0.5deg); }
+  50% { transform: translateX(0) translateY(0) rotate(0deg); }
+  75% { transform: translateX(-2px) translateY(1px) rotate(-0.5deg); }
+  100% { transform: translateX(0) translateY(0) rotate(0deg); }
+}
+
+/* اعمال انیمیشن روی متن */
+#text {
+  animation: gentle-shake 4s ease-in-out infinite;
+  /* سایر استایل‌های موجود شما */
+  position: relative;
+  z-index: 10;
+  max-width: 950px;
+  padding: 20px;
+  margin: auto;
+  margin-top: 100px;
+  margin-bottom: 30px;
+  font-family: koodak, sans-serif;
+  font-weight: bold;
+  font-size: 1.8rem;
+  line-height: 2.2rem;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 1rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(6px);
+}

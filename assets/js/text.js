@@ -3,10 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const enableSoundBtn = document.getElementById('enableSound');
     
     // تنظیمات اولیه
-    audio.volume = 0.7;
-    
-    // نمایش پیام به کاربر
-    alert("باباجون ! لطفا صدا رو زیاد کن 😘♥️😍");
+    audio.volume = 1;
     
     // تلاش برای پخش خودکار با تأخیر
     setTimeout(function() {
