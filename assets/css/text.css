@@ -1,0 +1,228 @@
+/* ===== فونت‌ها ===== */
+@font-face {
+  font-family: aviny;
+  src: url("/assets/defalt/aviny_ygxd.ttf");
+}
+
+@font-face {
+  font-family: koodak;
+  src: url("/assets/defalt/B\ Koodak\ Bold_0.ttf");
+}
+
+/* ===== رنگ‌ها ===== */
+:root {
+  /* پس‌زمینه سایت */
+  --body: #ebfffa;
+  /* بخش محتوا */
+  --content: #c6fce5;
+  /* دکمه‌ها */
+  --btn: #6ef3d6;
+  --btn-text: #fff;
+  /* متن */
+  --text: #0dceda;
+  /* لینک و هایلایت */
+  --highlight: #00a38c;
+  --link: #008075;
+
+  /* رنگ بادکنک‌ها */
+  --balloon-1: #ff6b6b;
+  --balloon-2: #ffd93d;
+  --balloon-3: #6bcb77;
+  --balloon-4: #4d96ff;
+  --balloon-5: #ff61a6;
+  --balloon-6: #845ec2;
+  --balloon-7: #00c9a7;
+  --balloon-8: #f9f871;
+}
+
+/* ===== ساختار اصلی ===== */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: aviny, sans-serif;
+  background: linear-gradient(135deg, var(--content) 0%, var(--body) 100%);
+  overflow-x: hidden;
+  color: var(--text);
+  text-align: center;
+}
+.decoration {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ===== متن اصلی ===== */
+#text {
+  position: relative;
+  z-index: 10;
+  max-width: 950px;
+  padding: 20px;
+  margin: auto;
+  margin-top: 100px;
+  margin-bottom: 30px;
+  font-family: koodak, sans-serif;
+  font-weight: bold;
+  font-size: 1.8rem;
+  line-height: 2.2rem;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 1rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(6px);
+}
+
+/* ===== دکمه‌ها ===== */
+a button#btn {
+  margin: 15px;
+  width: 950px;
+  padding: 15px 40px;
+  font-family: aviny;
+  font-size: 5rem;
+  font-weight: bold;
+  color: var(--btn-text);
+  background: linear-gradient(135deg, var(--btn), var(--highlight));
+  border: none;
+  border-radius: 6rem;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 6px 15px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  z-index: 10;
+  position: relative;
+}
+
+a button#btn:hover {
+  transform: scale(1.05);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 8px 18px;
+  border-radius: 4rem;
+}
+
+/* ===== بادکنک‌ها ===== */
+.balloon {
+  width: 50px;
+  height: 60px;
+  border-radius: 50%;
+  position: absolute;
+  animation: float 5s ease-in-out infinite;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.balloon::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 18px;
+  background: linear-gradient(to bottom, #fff, #aaa);
+}
+
+/* جای‌گیری بادکنک‌ها */
+.balloon-top-right-1 {
+  top: 60px; right: 60px;
+  background: radial-gradient(circle at 30% 30%, var(--balloon-1), var(--balloon-2));
+}
+.balloon-top-right-2 {
+  top: 40px; right: 120px;
+  background: radial-gradient(circle at 30% 30%, var(--balloon-3), var(--balloon-4));
+}
+.balloon-top-right-3 {
+  top: 80px; right: 30px;
+  background: radial-gradient(circle at 30% 30%, var(--balloon-5), var(--balloon-6));
+}
+.balloon-top-right-4 {
+  top: 20px; right: 90px;
+  background: radial-gradient(circle at 30% 30%, var(--balloon-7), var(--balloon-8));
+}
+
+.balloon-top-left-1 {
+  top: 60px; left: 60px;
+  background: radial-gradient(circle at 30% 30%, var(--balloon-8), var(--balloon-7));
+}
+.balloon-top-left-2 {
+  top: 40px; left: 120px;
+  background: radial-gradient(circle at 30% 30%, var(--balloon-6), var(--balloon-5));
+}
+.balloon-top-left-3 {
+  top: 80px; left: 30px;
+  background: radial-gradient(circle at 30% 30%, var(--balloon-4), var(--balloon-3));
+}
+.balloon-top-left-4 {
+  top: 20px; left: 90px;
+  background: radial-gradient(circle at 30% 30%, var(--balloon-2), var(--balloon-1));
+}
+
+/* ===== کیک‌ها ===== */
+.cake {
+  position: absolute;
+  width: 60px;
+  height: 55px;
+  animation: wobble 3s ease-in-out infinite;
+}
+.cake-bottom {
+  bottom: 0;
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(to right, #ffc0cb, #ffb6c1, #ffc0cb);
+  border-radius: 5px 5px 0 0;
+}
+.cake-middle {
+  bottom: 20px;
+  width: 100%;
+  height: 15px;
+  background: linear-gradient(to right, #f5f5dc, #e6e6fa, #f5f5dc);
+  border-radius: 5px 5px 0 0;
+}
+.cake-top {
+  bottom: 35px;
+  width: 100%;
+  height: 15px;
+  background: linear-gradient(to right, #ffc0cb, #ffb6c1, #ffc0cb);
+  border-radius: 5px 5px 0 0;
+}
+.cake::after {
+  content: "";
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 18px;
+  background: radial-gradient(circle, #ffd93d 40%, #ff6b6b 100%);
+  border-radius: 50%;
+  animation: flicker 1s infinite ease-in-out;
+}
+
+/* جای‌گیری کیک‌ها */
+.cake-bottom-right-1 { bottom: 60px; right: 80px; }
+.cake-bottom-right-2 { bottom: 30px; right: 40px; }
+.cake-bottom-left-1 { bottom: 60px; left: 80px; }
+.cake-bottom-left-2 { bottom: 30px; left: 40px; }
+
+/* ===== انیمیشن‌ها ===== */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(4deg); }
+}
+@keyframes wobble {
+  0%,100% { transform: rotate(0); }
+  25% { transform: rotate(2deg); }
+  75% { transform: rotate(-2deg); }
+}
+@keyframes flicker {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+/* ===== واکنش‌گرا ===== */
+@media (max-width: 768px) {
+  #text { font-size: 1.4rem; line-height: 1.8rem; }
+  .balloon, .cake { transform: scale(0.8); }
+}
+@media (max-width: 480px) {
+  #text { font-size: 1.2rem; line-height: 1.6rem; }
+  a button#btn { font-size: 1.5rem; padding: 10px 25px; }
+  .balloon, .cake { transform: scale(0.6); }
+}
