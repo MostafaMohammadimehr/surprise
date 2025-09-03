@@ -182,3 +182,53 @@ body, html {
     .balloon, .cake { transform: scale(0.6);}
     #btn { width: 180px; height: 50px; font-size: 16px;}
 }
+/* ===== دکمه‌ها ===== */
+.btn-card {
+    width: 400px;
+    height: 90px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(45deg, #FF6B6B, #FFD93D, #6BCB77, #4D96FF, #FF61A6);
+    border: none;
+    border-radius: 20px;
+    margin: 15px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+    background-size: 400% 400%;
+    animation: gradientShift 6s ease infinite;
+}
+
+.btn-card:hover {
+    transform: scale(1.12) rotate(-2deg);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.5);
+    filter: brightness(1.1);
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ===== Confetti canvas ===== */
+#confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* ===== ریسپانسیو ===== */
+@media (max-width:768px){
+    .btn-card { width: 280px; height: 70px; font-size: 20px;}
+}
+
+@media (max-width:480px){
+    .btn-card { width: 220px; height: 60px; font-size: 16px;}
+}
+
