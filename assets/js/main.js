@@ -106,3 +106,78 @@ window.addEventListener("load", function () {
     });
   }
 });
+document.addEventListener("DOMContentLoaded", function () {
+  const audio = document.getElementById("backgroundMusic");
+  const toggleButton = document.getElementById("toggleMusic");
+  const volumeSlider = document.getElementById("volumeSlider");
+
+  // تنظیمات اولیه
+  audio.volume = 0.7;
+  let userInteracted = false;
+
+  // نمایش هشدار به کاربر
+  setTimeout(function () {
+    if (!userInteracted) {
+      alert("باباجون ! لطفا صدا رو زیاد کن 😘♥️😍");
+    }
+  }, 3);
+
+  // تلاش برای پخش خودکار
+  function tryAutoPlay() {
+    const playPromise = audio.play();
+
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          // پخش موفقیت‌آمیز بود
+          toggleButton.textContent = "🔊";
+          userInteracted = true;
+        })
+        .catch((error) => {
+          // پخش خودکار ناموفق بود
+          console.log("پخش خودکار متوقف شد: نیاز به تعامل کاربر");
+          toggleButton.textContent = "🔇";
+        });
+    }
+  }
+
+  // تأخیر قبل از پخش
+  setTimeout(tryAutoPlay, 0);
+
+  // کنترل دکمه خاموش/روشن کردن صدا
+  toggleButton.addEventListener("click", function () {
+    if (audio.paused) {
+      audio
+        .play()
+        .then(() => {
+          toggleButton.textContent = "🔊";
+          userInteracted = true;
+        })
+        .catch((error) => {
+          console.error("خطا در پخش صدا:", error);
+        });
+    } else {
+      audio.pause();
+      toggleButton.textContent = "🔇";
+    }
+  });
+
+  // کنترل حجم صدا
+  volumeSlider.addEventListener("input", function () {
+    audio.volume = this.value;
+    userInteracted = true;
+  });
+
+  // مدیریت حالت visibility صفحه
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+      // صفحه مخفی شده است
+      audio.pause();
+    } else if (userInteracted) {
+      // صفحه دوباره visible شده و کاربر قبلاً تعامل داشته
+      audio.play().catch((error) => {
+        console.error("خطا در پخش صدا:", error);
+      });
+    }
+  });
+});
