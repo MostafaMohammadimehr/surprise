@@ -1,65 +1,51 @@
-/* بازی توپ و بلاک – نسخه‌ی ساده و ریسپانسیو
-   ویژگی‌ها:
-   - هدف‌گیری با ماوس/تاچ + نمایش نقطه‌چین
-   - پرتاب چند توپ با تاخیر کوتاه
-   - بلاک‌های عدددار که هر راند یک ردیف پایین می‌آیند
-   - دایره‌ی سبز که توپ اضافه می‌دهد
-   - پایان بازی وقتی بلاک‌ها به پایین برسند
-*/
-
 (() => {
   const canvas = document.getElementById("game");
   const levelEl = document.getElementById("level");
   const ballsEl = document.getElementById("balls");
   const bestEl = document.getElementById("best");
   const restartBtn = document.getElementById("restart");
-  const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1)); // وضوح
+  const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
   const ctx = canvas.getContext("2d");
 
-  // حالت‌ها
   let W = 0,
     H = 0;
-  let gridCols = 7; // تعداد ستون‌ها
-  let gridPad = 8; // فاصله داخلی
-  let topMargin = 70; // فضای بالای شبکه (برای دید بهتر)
-  let cellSize = 0;
-
-  let level = 1;
-  let baseBallCount = 1;
-  let balls = [];
-  let aiming = false;
-  let aimStart = null;
-  let aimPoint = null;
-  let turnLaunched = false;
-  let blocks = [];
-  let bonuses = []; // دایره‌های سبز
-  let returnedThisTurn = 0;
-  let anchorX = 0; // محل شروع توپ‌ها (ته صفحه)
+  let gridCols = 7,
+    gridPad = 8,
+    topMargin = 70,
+    cellSize = 0;
+  let level = 1,
+    baseBallCount = 1,
+    balls = [],
+    aiming = false,
+    aimStart = null,
+    aimPoint = null,
+    turnLaunched = false;
+  let blocks = [],
+    bonuses = [],
+    returnedThisTurn = 0,
+    anchorX = 0;
   let best = Number(localStorage.getItem("bb_best") || 0);
   bestEl.textContent = best;
+  let timer = 0,
+    timerInterval = null;
 
   const rnd = (a, b) => Math.random() * (b - a) + a;
   const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
 
   function resize() {
-    // بوم با نسبت داخل CSS بزرگ/کوچک می‌شود؛ اینجا رزولوشن واقعی را تنظیم می‌کنیم
     const rect = canvas.getBoundingClientRect();
     W = Math.floor(rect.width * dpr);
     H = Math.floor(rect.height * dpr);
     canvas.width = W;
     canvas.height = H;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // تا مقیاس‌گذاری نقاشی همخوان باشد
-
-    // اندازه‌ی سلول‌ها
-    const usableW = rect.width - gridPad * 2;
-    cellSize = Math.floor(usableW / gridCols);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cellSize = Math.floor((rect.width - gridPad * 2) / gridCols);
     topMargin = Math.max(60, Math.floor(rect.height * 0.07));
     anchorX = rect.width / 2;
   }
   resize();
   window.addEventListener("resize", resize);
 
-  // مدل‌ها
   class Block {
     constructor(c, r, hp) {
       this.c = c;
@@ -80,23 +66,36 @@
       return cellSize - 6;
     }
     hit() {
-      this.hp--;
-      if (this.hp <= 0) this.dead = true;
+      if (--this.hp <= 0) this.dead = true;
     }
     draw() {
-      const x = this.x,
-        y = this.y,
-        w = this.w,
-        h = this.h;
-      // بدنه
-      roundRect(ctx, x + 3, y + 3, w, h, 10, "#00000010", true, false);
-      roundRect(ctx, x, y, w, h, 10, getCSS("--brick"), true, false);
-      // عدد
+      roundRect(
+        ctx,
+        this.x + 3,
+        this.y + 3,
+        this.w,
+        this.h,
+        10,
+        "#00000010",
+        true,
+        false
+      );
+      roundRect(
+        ctx,
+        this.x,
+        this.y,
+        this.w,
+        this.h,
+        10,
+        getCSS("--brick"),
+        true,
+        false
+      );
       ctx.fillStyle = getCSS("--brickText");
       ctx.font = `bold ${Math.floor(cellSize * 0.35)}px system-ui`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText(this.hp, x + w / 2, y + h / 2);
+      ctx.fillText(this.hp, this.x + this.w / 2, this.y + this.h / 2);
     }
   }
 
@@ -138,12 +137,8 @@
     }
     step(dt) {
       if (this.resting) return;
-
-      // حرکت
       this.x += this.vx * dt;
       this.y += this.vy * dt;
-
-      // دیوارها
       if (this.x < this.r) {
         this.x = this.r;
         this.vx *= -1;
@@ -157,7 +152,6 @@
         this.vy *= -1;
       }
 
-      // برخورد با بلاک‌ها (AABB ساده)
       for (const b of blocks) {
         if (b.dead) continue;
         const bx = b.x,
@@ -170,11 +164,10 @@
           this.y > by &&
           this.y < by + bh
         ) {
-          // تشخیص ساده‌ی سمت برخورد
-          const left = this.x - bx;
-          const right = bx + bw - this.x;
-          const top = this.y - by;
-          const bottom = by + bh - this.y;
+          const left = this.x - bx,
+            right = bx + bw - this.x,
+            top = this.y - by,
+            bottom = by + bh - this.y;
           const minH = Math.min(left, right, top, bottom);
           if (minH === left || minH === right) this.vx *= -1;
           else this.vy *= -1;
@@ -182,7 +175,6 @@
         }
       }
 
-      // برخورد با بونس
       for (const p of bonuses) {
         if (p.dead) continue;
         const dx = this.x - p.x,
@@ -194,18 +186,14 @@
         }
       }
 
-      // فرود به پایین
       if (this.vy > 0 && this.y >= canvas.clientHeight - this.r) {
         this.y = canvas.clientHeight - this.r;
         this.vx = 0;
         this.vy = 0;
         this.resting = true;
         returnedThisTurn++;
-        // اولین توپی که برگردد، مبدا پرتاب بعدی را مشخص می‌کند
         if (returnedThisTurn === 1) anchorX = this.x;
-        if (returnedThisTurn === balls.length) {
-          endTurn();
-        }
+        if (returnedThisTurn === balls.length) endTurn();
       }
     }
     draw() {
@@ -216,7 +204,6 @@
     }
   }
 
-  // ابزارها
   function getCSS(name) {
     return getComputedStyle(document.documentElement)
       .getPropertyValue(name)
@@ -241,9 +228,7 @@
     }
   }
 
-  // تولید ردیف جدید
   function spawnRow() {
-    // بلاک‌ها
     const taken = new Set();
     const count = Math.floor(rnd(2, 1 + Math.min(gridCols, 3 + level * 0.35)));
     for (let i = 0; i < count; i++) {
@@ -252,20 +237,14 @@
       taken.add(c);
       blocks.push(new Block(c, 0, level));
     }
-    // یک بونس سبز اختیاری
     if (Math.random() < 0.8) {
       let c = Math.floor(rnd(0, gridCols));
       bonuses.push(new Bonus(c, 0));
     }
   }
-
   function dropRows() {
     for (const b of blocks) b.r++;
     for (const p of bonuses) p.r++;
-    // اگر بلاکی به پایین برسد => گیم‌اور
-    const lastRowY =
-      topMargin +
-      (Math.floor((canvas.clientHeight - topMargin) / cellSize) - 1) * cellSize;
     for (const b of blocks) {
       if (b.dead) continue;
       if (b.y + b.h >= canvas.clientHeight - 2) {
@@ -280,9 +259,9 @@
     balls = [];
     turnLaunched = true;
     const count = baseBallCount;
-    const speed = 520 / 60; // px per frame تقریبی
+    const speed = 520 / 60;
     for (let i = 0; i < count; i++) {
-      const delay = i * 60; // میلی‌ثانیه
+      const delay = i * 60;
       setTimeout(() => {
         balls.push(
           new Ball(anchorX, canvas.clientHeight - 8, vx * speed, vy * speed)
@@ -295,7 +274,6 @@
     turnLaunched = false;
     level++;
     levelEl.textContent = level;
-    // پاکسازی
     blocks = blocks.filter((b) => !b.dead);
     bonuses = bonuses.filter((p) => !p.dead);
     dropRows();
@@ -307,12 +285,14 @@
     best = Math.max(best, level - 1);
     localStorage.setItem("bb_best", best);
     bestEl.textContent = best;
-    // توقف همه توپ‌ها
     balls.length = 0;
     turnLaunched = false;
+    clearInterval(timerInterval);
+    alert(
+      "بازی تموم شد!\nمرحله: " + (level - 1) + "\nزمان: " + timer + " ثانیه"
+    );
   }
 
-  // ورودی‌ها
   function clientPos(e) {
     if (e.touches && e.touches[0])
       return { x: e.touches[0].clientX, y: e.touches[0].clientY };
@@ -341,15 +321,11 @@
     if (!aiming || turnLaunched) return;
     aiming = false;
     const p = toCanvas(clientPos(e));
-    // بردار سرعت
-    let dx = p.x - aimStart.x;
-    let dy = p.y - aimStart.y;
-    // فقط به بالا
+    let dx = p.x - aimStart.x,
+      dy = p.y - aimStart.y;
     if (dy > -10) dy = -10;
     const len = Math.hypot(dx, dy) || 1;
-    const vx = dx / len;
-    const vy = dy / len;
-    startTurn(vx, vy);
+    startTurn(dx / len, dy / len);
   });
 
   restartBtn.addEventListener("click", () => {
@@ -361,64 +337,46 @@
     balls.length = 0;
     blocks.length = 0;
     bonuses.length = 0;
+    timer = 0;
     spawnRow();
   });
 
-  // حلقه‌ی بازی
   let last = performance.now();
   function loop(now) {
-    const dt = Math.min(32, now - last); // ms
+    const dt = Math.min(32, now - last);
     last = now;
-
-    // پس‌زمینه بوم
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-
-    // شبکه‌ی راهنما
+    const gw = cellSize * gridCols,
+      gx = gridPad,
+      gy = topMargin;
     ctx.strokeStyle = getCSS("--border");
     ctx.lineWidth = 1;
-    const gw = cellSize * gridCols;
-    const gx = gridPad,
-      gy = topMargin;
     ctx.strokeRect(
       gx,
       gy,
       gw,
       Math.floor((canvas.clientHeight - topMargin) / cellSize) * cellSize
     );
-
-    // رسم بلاک‌ها و بونس‌ها
     for (const b of blocks) b.draw();
     for (const p of bonuses) p.draw();
-
-    // نشانه‌گیری
-    if (aiming && aimStart && aimPoint) {
-      drawAimDots(aimStart, aimPoint);
-      // مبدا نشانه را نیز نشان بده
-      ctx.beginPath();
-      ctx.arc(aimStart.x, aimStart.y, 6, 0, Math.PI * 2);
-      ctx.fillStyle = getCSS("--ball");
-      ctx.fill();
-    }
-
-    // توپ‌ها
+    if (aiming && aimStart && aimPoint) drawAimDots(aimStart, aimPoint);
     for (const ball of balls) ball.step(dt);
     for (const ball of balls) ball.draw();
-
     requestAnimationFrame(loop);
   }
 
   function drawAimDots(a, p) {
     let dx = p.x - a.x,
       dy = p.y - a.y;
-    if (dy > -10) dy = -10; // مجبوراً رو به بالا
+    if (dy > -10) dy = -10;
     const len = Math.hypot(dx, dy) || 1;
     dx /= len;
     dy /= len;
     const step = 16;
     ctx.fillStyle = getCSS("--aim");
     for (let i = 1; i <= 20; i++) {
-      const x = a.x + dx * step * i;
-      const y = a.y + dy * step * i;
+      const x = a.x + dx * step * i,
+        y = a.y + dy * step * i;
       if (y < topMargin + 4) break;
       ctx.beginPath();
       ctx.arc(x, y, 3, 0, Math.PI * 2);
@@ -426,7 +384,9 @@
     }
   }
 
-  // شروع بازی
   spawnRow();
   requestAnimationFrame(loop);
+  timerInterval = setInterval(() => {
+    timer++;
+  }, 1000);
 })();
