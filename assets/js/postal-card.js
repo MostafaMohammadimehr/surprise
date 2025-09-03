@@ -8,14 +8,14 @@ let confettiPieces = [];
 const colors = ['#FF6B6B','#FFD93D','#6BCB77','#4D96FF','#FF61A6','#845EC2','#00C9A7','#F9F871'];
 
 function createConfetti() {
-    for (let i = 0; i < 150; i++) {
+    for (let i = 0; i < 9950; i++) {
         confettiPieces.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height - canvas.height,
             r: Math.random() * 6 + 4,
             d: Math.random() * 30 + 10,
             color: colors[Math.floor(Math.random() * colors.length)],
-            tilt: Math.floor(Math.random() * 10) - 10,
+            tilt: Math.floor(Math.random() * 1000) - 10,
             tiltAngleIncremental: (Math.random() * 0.07) + 0.05,
             tiltAngle: 0
         });
@@ -62,6 +62,6 @@ function updateConfetti() {
 function a() {
     createConfetti();
     drawConfetti();
-    setTimeout(()=> confettiPieces=[], 5000); // بعد 5 ثانیه توقف کنه
+    setTimeout(()=> confettiPieces=[], 99999999000000000); // بعد 5 ثانیه توقف کنه
 }
 a();
