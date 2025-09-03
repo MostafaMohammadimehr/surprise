@@ -1,28 +1,33 @@
-// ===== Confetti با آخرین تکنولوژی =====
+// ===== Confetti پیشرفته =====
 const canvas = document.getElementById('confetti');
 const ctx = canvas.getContext('2d');
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function resizeCanvas(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
-const confettiCount = 150;
+const confettiCount = 200;
 const confetti = [];
 
-for(let i=0; i<confettiCount; i++){
+for(let i=0;i<confettiCount;i++){
     confetti.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height - canvas.height,
-        r: Math.random() * 6 + 4,
-        d: Math.random() * confettiCount,
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height - canvas.height,
+        r: Math.random()*8 + 5,
+        d: Math.random()*confettiCount,
         color: `hsl(${Math.random()*360}, 70%, 60%)`,
-        tilt: Math.random() * 10 - 10,
-        tiltAngleIncrement: Math.random() * 0.07 + 0.05
+        tilt: Math.random()*10 - 10,
+        tiltAngleIncrement: Math.random()*0.07 + 0.05,
+        tiltAngle: 0
     });
 }
 
 function drawConfetti(){
-    ctx.clearRect(0,0,canvas.width, canvas.height);
-    confetti.forEach((c)=>{
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    confetti.forEach(c=>{
         ctx.beginPath();
         ctx.lineWidth = c.r;
         ctx.strokeStyle = c.color;
@@ -34,15 +39,15 @@ function drawConfetti(){
 }
 
 function updateConfetti(){
-    confetti.forEach((c)=>{
+    confetti.forEach(c=>{
         c.tiltAngle += c.tiltAngleIncrement;
-        c.y += Math.cos(c.d) + 1 + c.r/2;
-        c.tilt = Math.sin(c.tiltAngle) * 15;
+        c.y += Math.cos(c.d) + 2 + c.r/2;
+        c.tilt = Math.sin(c.tiltAngle)*15;
 
         if(c.y > canvas.height){
-            c.x = Math.random() * canvas.width;
+            c.x = Math.random()*canvas.width;
             c.y = -20;
-            c.tilt = Math.random() * 10 - 10;
+            c.tilt = Math.random()*10 -10;
         }
     });
     requestAnimationFrame(drawConfetti);
@@ -52,5 +57,5 @@ drawConfetti();
 
 // ===== دکمه بازگشت =====
 document.getElementById('replayBtn').addEventListener('click', ()=>{
-    window.location.href = "index.html"; // بازگشت به صفحه اصلی
+    window.location.href = "main.html";
 });

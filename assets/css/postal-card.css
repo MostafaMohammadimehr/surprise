@@ -194,11 +194,10 @@ body, html {
     margin: 15px;
     cursor: pointer;
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease, width 0.3s linear;
     background-size: 400% 400%;
     animation: gradientShift 6s ease infinite;
     font-family: aviny;
-
 }
 
 .btn-card:hover {
@@ -215,6 +214,7 @@ body, html {
     transform: scale(1.12) rotate(-2deg);
 
 }
+.btn3:hover{width: 605px;}
 @keyframes gradientShift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }

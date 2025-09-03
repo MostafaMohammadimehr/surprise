@@ -59,8 +59,9 @@ function updateConfetti() {
 }
 
 // ===== Event for buttons =====
-document.getElementById('btn-card').addEventListener('click', () => {
+function a() {
     createConfetti();
     drawConfetti();
     setTimeout(()=> confettiPieces=[], 5000); // بعد 5 ثانیه توقف کنه
-});
+}
+a();
