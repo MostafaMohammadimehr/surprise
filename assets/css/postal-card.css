@@ -184,28 +184,37 @@ body, html {
 }
 /* ===== دکمه‌ها ===== */
 .btn-card {
-    width: 400px;
-    height: 90px;
-    font-size: 26px;
-    font-weight: bold;
-    color: #fff;
+    width: 600px;
+   
+    font-size: 100px;
+    color: #000;
     background: linear-gradient(45deg, #FF6B6B, #FFD93D, #6BCB77, #4D96FF, #FF61A6);
     border: none;
-    border-radius: 20px;
+    border-radius: 6rem;
     margin: 15px;
     cursor: pointer;
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
     background-size: 400% 400%;
     animation: gradientShift 6s ease infinite;
+    font-family: aviny;
+
 }
 
 .btn-card:hover {
-    transform: scale(1.12) rotate(-2deg);
     box-shadow: 0 12px 25px rgba(0,0,0,0.5);
     filter: brightness(1.1);
+    cursor: pointer;
+    
 }
+.btn1:hover{
+    transform: scale(1.12) rotate(2deg);
 
+}
+.btn2:hover{
+    transform: scale(1.12) rotate(-2deg);
+
+}
 @keyframes gradientShift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -232,3 +241,43 @@ body, html {
     .btn-card { width: 220px; height: 60px; font-size: 16px;}
 }
 
+/* ===== بادکنک‌ها ===== */
+.balloon {
+    width: 80px;   /* از 50px به 80px بزرگ شد */
+    height: 100px; /* از 60px به 100px بزرگ شد */
+    border-radius: 50%;
+    position: absolute;
+    animation: float 6s ease-in-out infinite;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    transform-origin: bottom center;
+}
+
+/* ===== کیک‌ها ===== */
+.cake {
+    position: absolute;
+    width: 90px;   /* از 60px به 90px بزرگ شد */
+    height: 70px;  /* از 50px به 70px بزرگ شد */
+    animation: wobble 3s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+.cake-bottom { height: 30px; }
+.cake-middle { height: 20px; }
+.cake-top { height: 20px; }
+
+.cake::before {
+    width: 15px; height: 25px; /* شمع بزرگ‌تر شد */
+}
+
+.cake::after {
+    width: 18px; height: 25px; /* شعله بزرگ‌تر شد */
+}
+
+/* ===== ریسپانسیو ===== */
+@media (max-width:768px){
+    .balloon, .cake { transform: scale(1); } /* الان روی تبلت بزرگه اما قابل دید */
+}
+
+@media (max-width:480px){
+    .balloon, .cake { transform: scale(0.8); } /* موبایل کوچک‌تر */
+}
