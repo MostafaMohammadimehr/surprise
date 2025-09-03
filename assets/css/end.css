@@ -6,7 +6,11 @@
     --btn-bg: linear-gradient(45deg, #FF6B6B, #FFD93D, #6BCB77, #4D96FF, #FF61A6);
     --btn-text: #000;
 }
-
+@font-face {
+    font-family: aviny;
+    src: url("/assets/defalt/aviny_ygxd.ttf");
+}
+*{font-family: aviny;}
 /* ===== بدنه ===== */
 body, html {
     margin: 0;
