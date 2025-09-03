@@ -1,3 +1,4 @@
+/* ===== فونت‌ها ===== */
 @font-face {
     font-family: aviny;
     src: url("/assets/defalt/aviny_ygxd.ttf");
@@ -8,91 +9,64 @@
     src: url("/assets/defalt/B\ Koodak\ Bold_0.ttf");
 }
 
+/* ===== متغیرهای رنگی ===== */
 :root {
-    /* رنگ پس‌زمینه کل بدنه سایت */
+    /* پس‌زمینه‌ها */
     --body: #EBFFFA;
-    /* رنگ پس‌زمینه بخش‌های محتوا (مثل کارت‌ها یا جعبه‌ها) */
     --content: #C6FCE5;
-    /* رنگ دکمه‌ها */
+    /* دکمه‌ها */
     --btn: #6EF3D6;
-    /* رنگ متن اصلی */
-    --text: #0DCEDA;
-    /* رنگ متن دکمه‌ها */
     --btn-text: #ffffff;
-    /* رنگ های اضافی برای تاکید یا لینک‌ها */
+    /* متن‌ها */
+    --text: #0DCEDA;
     --highlight: #00A38C;
     --link: #008075;
-    /* رنگ‌های جدید برای بادکنک‌ها */
+    /* بادکنک‌ها */
     --balloon-1: #FF6B6B;
-    /* قرمز شادی‌بخش */
     --balloon-2: #FFD93D;
-    /* زرد طلایی */
     --balloon-3: #6BCB77;
-    /* سبز نعنایی */
     --balloon-4: #4D96FF;
-    /* آبی آسمونی */
     --balloon-5: #FF61A6;
-    /* صورتی فانتزی */
     --balloon-6: #845EC2;
-    /* بنفش قشنگ */
     --balloon-7: #00C9A7;
-    /* سبز آبی خاص */
     --balloon-8: #F9F871;
-    /* زرد پاستلی */
 }
 
-body {
-    height: 98vh;
-    display: flex;
-    /* flex-direction: column; */
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin: 0;
-    background: linear-gradient(135deg, var(--content) 0%, var(--body) 100%);
-    font-family: aviny, sans-serif;
-    position: relative;
-    overflow: hidden;
-}
-
-body,
-html {
+/* ===== بدنه ===== */
+body, html {
     margin: 0;
     padding: 0;
-    overflow: hidden;
     width: 100%;
     height: 100%;
-    background-color: #fff7e6;
-    animation: moveGlow 8s linear forwards;
+    font-family: aviny, sans-serif;
+    background: linear-gradient(135deg, var(--content) 0%, var(--body) 100%);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-align: center;
 }
 
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 5;
-}
-
-/* استایل‌های اضافه شده برای تزئینات */
+/* ===== تزئینات ===== */
 .decoration {
     position: fixed;
-    z-index: 1;
-    pointer-events: none;
-    width: 100%;
-    height: 100%;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
 }
 
-/* استایل بادکنک‌ها */
+/* ===== بادکنک‌ها ===== */
 .balloon {
     width: 50px;
     height: 60px;
     border-radius: 50%;
     position: absolute;
     animation: float 4s ease-in-out infinite;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .balloon::after {
@@ -107,155 +81,30 @@ canvas {
     background: linear-gradient(to bottom, #fff, #aaa);
 }
 
-/* موقعیت‌های بادکنک بالا سمت راست */
-.balloon-top-right-1 {
-    top: 60px;
-    right: 60px;
-    background: radial-gradient(circle at 30% 30%, var(--balloon-1), var(--balloon-2));
-    animation-delay: 0s;
-}
+/* موقعیت‌ها و رنگ‌های بادکنک */
+.balloon-top-right-1 { top: 60px; right: 60px; background: radial-gradient(circle at 30% 30%, var(--balloon-1), var(--balloon-2)); animation-delay: 0s;}
+.balloon-top-right-2 { top: 40px; right: 120px; background: radial-gradient(circle at 30% 30%, var(--balloon-3), var(--balloon-4)); animation-delay: 0.5s;}
+.balloon-top-right-3 { top: 80px; right: 30px; background: radial-gradient(circle at 30% 30%, var(--balloon-5), var(--balloon-6)); animation-delay: 1s;}
+.balloon-top-right-4 { top: 20px; right: 90px; background: radial-gradient(circle at 30% 30%, var(--balloon-7), var(--balloon-8)); animation-delay: 1.5s;}
 
-.balloon-top-right-2 {
-    top: 40px;
-    right: 120px;
-    background: radial-gradient(circle at 30% 30%, var(--balloon-3), var(--balloon-4));
-    animation-delay: 0.5s;
-}
+.balloon-top-left-1 { top: 60px; left: 60px; background: radial-gradient(circle at 30% 30%, var(--balloon-8), var(--balloon-7)); animation-delay: 0.2s;}
+.balloon-top-left-2 { top: 40px; left: 120px; background: radial-gradient(circle at 30% 30%, var(--balloon-6), var(--balloon-5)); animation-delay: 0.7s;}
+.balloon-top-left-3 { top: 80px; left: 30px; background: radial-gradient(circle at 30% 30%, var(--balloon-4), var(--balloon-3)); animation-delay: 1.2s;}
+.balloon-top-left-4 { top: 20px; left: 90px; background: radial-gradient(circle at 30% 30%, var(--balloon-2), var(--balloon-1)); animation-delay: 1.7s;}
 
-.balloon-top-right-3 {
-    top: 80px;
-    right: 30px;
-    background: radial-gradient(circle at 30% 30%, var(--balloon-5), var(--balloon-6));
-    animation-delay: 1s;
-}
-
-.balloon-top-right-4 {
-    top: 20px;
-    right: 90px;
-    background: radial-gradient(circle at 30% 30%, var(--balloon-7), var(--balloon-8));
-    animation-delay: 1.5s;
-}
-
-/* موقعیت‌های بادکنک بالا سمت چپ */
-.balloon-top-left-1 {
-    top: 60px;
-    left: 60px;
-    background: radial-gradient(circle at 30% 30%, var(--balloon-8), var(--balloon-7));
-    animation-delay: 0.2s;
-}
-
-.balloon-top-left-2 {
-    top: 40px;
-    left: 120px;
-    background: radial-gradient(circle at 30% 30%, var(--balloon-6), var(--balloon-5));
-    animation-delay: 0.7s;
-}
-
-.balloon-top-left-3 {
-    top: 80px;
-    left: 30px;
-    background: radial-gradient(circle at 30% 30%, var(--balloon-4), var(--balloon-3));
-    animation-delay: 1.2s;
-}
-
-.balloon-top-left-4 {
-    top: 20px;
-    left: 90px;
-    background: radial-gradient(circle at 30% 30%, var(--balloon-2), var(--balloon-1));
-    animation-delay: 1.7s;
-}
-
-/* انیمیشن‌ها */
+/* ===== انیمیشن‌ها ===== */
 @keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0) rotate(0deg);
-    }
-
-    50% {
-        transform: translateY(-10px) rotate(5deg);
-    }
-}
-
-@keyframes pulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.1);
-    }
+    0%,100% { transform: translateY(0) rotate(0deg);}
+    50% { transform: translateY(-12px) rotate(5deg);}
 }
 
 @keyframes wobble {
-
-    0%,
-    100% {
-        transform: rotate(0deg);
-    }
-
-    25% {
-        transform: rotate(2deg);
-    }
-
-    75% {
-        transform: rotate(-2deg);
-    }
+    0%,100% { transform: rotate(0deg);}
+    25% { transform: rotate(2deg);}
+    75% { transform: rotate(-2deg);}
 }
 
-/* طراحی واکنش‌گرا برای تزئینات */
-@media (max-width: 768px) {
-
-    .balloon,
-    .heart {
-        transform: scale(0.8);
-    }
-
-    .balloon-top-left-1,
-    .balloon-top-left-2,
-    .balloon-top-left-3,
-    .balloon-top-left-4 {
-        left: 10px;
-    }
-
-    .balloon-top-right-1,
-    .balloon-top-right-2,
-    .balloon-top-right-3,
-    .balloon-top-right-4 {
-        right: 10px;
-    }
-
-    .heart-bottom-left-1,
-    .heart-bottom-left-2 {
-        left: 10px;
-    }
-
-    .heart-bottom-right-1,
-    .heart-bottom-right-2 {
-        right: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-
-    .balloon,
-    .heart {
-        transform: scale(0.6);
-    }
-
-    #h1 {
-        font-size: 50px;
-    }
-
-    #game {
-        font-size: 30px;
-    }
-}
-
-/* استایل کیک‌ها */
+/* ===== کیک‌ها ===== */
 .cake {
     position: absolute;
     width: 60px;
@@ -263,102 +112,9 @@ canvas {
     animation: wobble 3s ease-in-out infinite;
 }
 
-.cake-bottom {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 20px;
-    background: linear-gradient(to right, #FFD700, #FFC107, #FFD700);
-    border-radius: 5px 5px 0 0;
-}
-
-.cake-middle {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    height: 15px;
-    background: linear-gradient(to right, #FF6B6B, #FF5252, #FF6B6B);
-    border-radius: 5px 5px 0 0;
-}
-
-.cake-top {
-    position: absolute;
-    bottom: 35px;
-    width: 100%;
-    height: 15px;
-    background: linear-gradient(to right, #4ECDC4, #26A69A, #4ECDC4);
-    border-radius: 5px 5px 0 0;
-}
-
-.cake::before {
-    content: "🍰🍰";
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 20px;
-}
-
-/* موقعیت‌های کیک پایین سمت راست */
-.cake-bottom-right-1 {
-    bottom: 60px;
-    right: 80px;
-    animation-delay: 0s;
-}
-
-.cake-bottom-right-2 {
-    bottom: 30px;
-    right: 40px;
-    animation-delay: 0.4s;
-}
-
-/* موقعیت‌های کیک پایین سمت چپ */
-.cake-bottom-left-1 {
-    bottom: 60px;
-    left: 80px;
-    animation-delay: 0.2s;
-}
-
-.cake-bottom-left-2 {
-    bottom: 30px;
-    left: 40px;
-    animation-delay: 0.6s;
-}
-
-/* استایل کیک‌ها */
-.cake {
-    position: absolute;
-    width: 60px;
-    height: 50px;
-    animation: wobble 3s ease-in-out infinite;
-}
-
-.cake-bottom {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 20px;
-    background: linear-gradient(to right, #FFC0CB, #FFB6C1, #FFC0CB);
-    border-radius: 5px 5px 0 0;
-}
-
-.cake-middle {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    height: 15px;
-    background: linear-gradient(to right, #F5F5DC, #E6E6FA, #F5F5DC);
-    border-radius: 5px 5px 0 0;
-}
-
-.cake-top {
-    position: absolute;
-    bottom: 35px;
-    width: 100%;
-    height: 15px;
-    background: linear-gradient(to right, #FFC0CB, #FFB6C1, #FFC0CB);
-    border-radius: 5px 5px 0 0;
-}
+.cake-bottom { height: 20px; border-radius:5px 5px 0 0; background: linear-gradient(to right, #FFC0CB, #FFB6C1, #FFC0CB);}
+.cake-middle { height: 15px; border-radius:5px 5px 0 0; background: linear-gradient(to right, #F5F5DC, #E6E6FA, #F5F5DC);}
+.cake-top { height: 15px; border-radius:5px 5px 0 0; background: linear-gradient(to right, #FFC0CB, #FFB6C1, #FFC0CB);}
 
 .cake::before {
     content: "";
@@ -372,33 +128,6 @@ canvas {
     border-radius: 50% 50% 0 0;
 }
 
-/* موقعیت‌های کیک پایین سمت راست */
-.cake-bottom-right-1 {
-    bottom: 60px;
-    right: 80px;
-    animation-delay: 0s;
-}
-
-.cake-bottom-right-2 {
-    bottom: 30px;
-    right: 40px;
-    animation-delay: 0.4s;
-}
-
-/* موقعیت‌های کیک پایین سمت چپ */
-.cake-bottom-left-1 {
-    bottom: 60px;
-    left: 80px;
-    animation-delay: 0.2s;
-}
-
-.cake-bottom-left-2 {
-    bottom: 30px;
-    left: 40px;
-    animation-delay: 0.6s;
-}
-
-/* شعله شمع */
 .cake::after {
     content: "";
     position: absolute;
@@ -408,25 +137,48 @@ canvas {
     width: 12px;
     height: 18px;
     background: radial-gradient(circle, #FFD93D 40%, #FF6B6B 100%);
-    border-radius: 50% 50% 50% 50%;
+    border-radius: 50%;
     animation: flicker 1s infinite ease-in-out;
 }
 
-/* انیمیشن شعله */
 @keyframes flicker {
-
-    0%,
-    100% {
-        transform: translateX(-50%) scale(1);
-        opacity: 0.9;
-    }
-
-    50% {
-        transform: translateX(-50%) scale(1.1);
-        opacity: 1;
-    }
+    0%,100% { transform: translateX(-50%) scale(1); opacity: 0.9;}
+    50% { transform: translateX(-50%) scale(1.1); opacity: 1;}
 }
-#btn{
-    width: 500px;
-    height: 80px;
+
+/* موقعیت‌های کیک */
+.cake-bottom-right-1 { bottom: 60px; right: 80px; animation-delay: 0s;}
+.cake-bottom-right-2 { bottom: 30px; right: 40px; animation-delay: 0.4s;}
+.cake-bottom-left-1 { bottom: 60px; left: 80px; animation-delay: 0.2s;}
+.cake-bottom-left-2 { bottom: 30px; left: 40px; animation-delay: 0.6s;}
+
+/* ===== دکمه‌ها ===== */
+#btn {
+    width: 300px;
+    height: 70px;
+    background: var(--btn);
+    color: var(--btn-text);
+    border: none;
+    border-radius: 12px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+#btn:hover {
+    transform: scale(1.05);
+    background: var(--highlight);
+}
+
+/* ===== ریسپانسیو ===== */
+@media (max-width:768px){
+    .balloon, .cake { transform: scale(0.8);}
+    #btn { width: 220px; height: 60px; font-size: 18px;}
+}
+
+@media (max-width:480px){
+    .balloon, .cake { transform: scale(0.6);}
+    #btn { width: 180px; height: 50px; font-size: 16px;}
 }
