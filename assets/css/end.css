@@ -15,7 +15,6 @@
 * {
     font-family: aviny;
 }
-
 /* ===== بدنه ===== */
 body, html {
     margin: 0;
@@ -131,4 +130,12 @@ body, html {
     #finalMessage p { font-size: 1.2rem; }
     .btn-card { padding: 15px 40px; font-size: 1.2rem; }
     .floating-item { width: 40px; height: 40px; }
+}
+.play{
+    font-size: 300px !important;
+    width: 900px !important;
+    border-radius: 20rem !important;
+}
+.play:hover{
+    transform: scale(1.2) rotate(15deg) !important;
 }
